@@ -1,0 +1,2 @@
+{{ venv_name }}
+*.pyc
