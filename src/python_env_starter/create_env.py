@@ -5,7 +5,7 @@ import os
 import shutil
 from jinja2 import Environment, PackageLoader
 
-ENV_TEMPLATE = 'templates/env.template'
+ENV_TEMPLATE = 'env.template'
 ENV_FILE = '.env'
 
 def main(args, logger=None):
@@ -32,7 +32,16 @@ def main(args, logger=None):
     )
 
     # Copy template/env.template to .env (overwrite if exists
-    shutil.copy(os.path.join(file_dir, ENV_TEMPLATE), env_target)
+    # shutil.copy(os.path.join(file_dir, ENV_TEMPLATE), env_target)
+    template = env.get_template(ENV_TEMPLATE)
+    # print(template.render(venv_name=venv_dir))
+
+    with open(env_target, 'w') as fh:
+        fh.write(str(template.render(venv_name=venv_dir)))
+        # fh.write("Test")
+
+    # chmod 755 (in octal, because wtf python)
+    os.chmod(env_target, 493)
     # Replace template values in .env
     # chmod file
 
