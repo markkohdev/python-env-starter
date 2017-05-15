@@ -5,8 +5,18 @@ import os
 import shutil
 from jinja2 import Environment, PackageLoader
 
+# Setup template and target files
+PWD = os.environ.get('PWD', '.')
+
 ENV_TEMPLATE = 'env.template'
-ENV_FILE = '.env'
+ENV_TARGET = os.path.join(PWD, '.env')
+
+SETUP_TEMPLATE = 'setup.template'
+SETUP_TARGET = os.path.join(PWD, 'setup.sh')
+
+GITIGNORE_TEMPLATE = 'gitignore.template'
+GITIGNORE_TARGET = os.path.join(PWD, '.gitignore')
+
 
 def main(args, logger=None):
     logger = logger or logging.getLogger()
@@ -15,45 +25,52 @@ def main(args, logger=None):
 
     venv_dir = args.dir
 
-    overwrite_env = True
-
-    # Use these to compile file targets
-    pwd = os.environ.get('PWD', '.')
-    file_dir = os.path.dirname(__file__)
-
-    env_target = os.path.join(pwd, ENV_FILE)
-
     # If we're interactive, prompt the users to update the values for things!
     if not args.non_interactive:
         venv_dir = input('Virtual environment directory [{}]: '.format(venv_dir)) or venv_dir
 
+    # Initialize our jinja templates dir
     env = Environment(
         loader=PackageLoader('python_env_starter', 'templates'),
     )
 
-    # Copy template/env.template to .env (overwrite if exists
-    # shutil.copy(os.path.join(file_dir, ENV_TEMPLATE), env_target)
+    ###########################################################################
+    # .env
+    ###########################################################################
     template = env.get_template(ENV_TEMPLATE)
-    # print(template.render(venv_name=venv_dir))
-
-    with open(env_target, 'w') as fh:
-        fh.write(str(template.render(venv_name=venv_dir)))
-        # fh.write("Test")
+    with open(ENV_TARGET, 'w') as fh:
+        fh.write(template.render(venv_name=venv_dir))
 
     # chmod 755 (in octal, because wtf python)
-    os.chmod(env_target, 493)
-    # Replace template values in .env
-    # chmod file
+    os.chmod(ENV_TARGET, 493)
 
-    # Copy template/setup.template to setup.sh
-    # shutil.copy('template/env.template', '.env')
 
-    # Replace template values in setup.sh
-    # chmod file
+    ###########################################################################
+    # setup.sh
+    ###########################################################################
+    template = env.get_template(SETUP_TEMPLATE)
+    with open(SETUP_TARGET, 'w') as fh:
+        fh.write(template.render(venv_name=venv_dir))
 
-    # Add venv to gitignore
-    # if
+    # chmod 755 (493 in decimal = 755 in octal, because wtf python)
+    os.chmod(SETUP_TARGET, 493)
 
+
+    ###########################################################################
+    # .gitignore
+    # This very well may already exist, so we just wanna update it if it does
+    ###########################################################################
+    template = env.get_template(GITIGNORE_TEMPLATE)
+    template_lines = template.render(venv_name=venv_dir).splitlines()
+    with open(GITIGNORE_TARGET, 'a+') as fh:
+        fh.seek(0)
+        gitignore_lines = [line.strip() for line in fh.readlines()]
+        for line in template_lines:
+            if line not in gitignore_lines:
+                logger.debug('Adding "{}" to .gitignore'.format(line))
+                fh.writelines([line])
+            else:
+                logger.debug('"{}" already exists in .gitignore'.format(line))
 
     logger.info("Virtual env setup complete!")
 

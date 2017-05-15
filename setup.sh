@@ -4,12 +4,8 @@
 # Written by Mark Koh
 # 2/24/2017
 #
-# This script will install apt-get and brew dependencies into a python virtual environment as well as install autoenv
+# This script will install apt-get and brew dependencies as well as install autoenv
 # which will automatically activate your virtual environment when you `cd` into this directory.
-
-# Set this to whatever you so choose, just make sure it's in the .gitignore
-read -p "Virtual environment name [env]: " VIRTUAL_ENV_NAME
-VIRTUAL_ENV_NAME=${VIRTUAL_ENV_NAME:-env}
 
 # See if we have either brew or apt-get installed
 BREW_CMD=$(which brew)
@@ -49,37 +45,13 @@ if ! grep -q "activate.sh" $BASHRC_ABS ; then
 fi
 
 # Create the actual virtualenv
-if [ ! -d $VIRTUAL_ENV_NAME ]; then
+if [ ! -d .venv ]; then
     echo "Creating virtual env..."
-    virtualenv -p python3 $VIRTUAL_ENV_NAME
-
-    if ! grep -q "$VIRTUAL_ENV_NAME" .gitignore; then
-        echo "Adding virtual environment to .gitignore";
-        echo "$VIRTUAL_ENV_NAME/" >> .gitignore
-    fi
+    virtualenv -p python3 .venv
 fi
 
-# Setup .env file if not exists
-if [ ! -e .env ]; then
-    echo "Creating autoenv .env file...";
-    cat << EOF > .env
-venv=$VIRTUAL_ENV_NAME
-currentvenv=""
-
-if [[ \$VIRTUAL_ENV != "" ]]
-then
-  # Strip out the path and just leave the env name
-  currentvenv="\${VIRTUAL_ENV##*/}"
-fi
-
-if [[ "\$currentvenv" != "\$venv" ]]
-then
-  echo "Switching to environment: \$venv"
-  source ./\$venv/bin/activate
-fi
-EOF
-  chmod +x .env
-fi
+# Source the .env file
+source .env
 
 # Source the bash setup file so we activate the autoenv
 source $BASHRC_ABS
