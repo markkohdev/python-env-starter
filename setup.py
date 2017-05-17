@@ -1,4 +1,4 @@
-"""The setup script for python-env-starter
+"""The setup script for python-env
 See:
 https://packaging.python.org/en/latest/distributing.html
 https://github.com/pypa/sampleproject
@@ -17,7 +17,7 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
     long_description = f.read()
 
 setup(
-    name='python-env-starter',
+    name='python-env',
 
     # Versions should comply with PEP440.  For a discussion on single-sourcing
     # the version across setup.py and the project code, see
@@ -28,7 +28,7 @@ setup(
     long_description=long_description,
 
     # The project's main homepage.
-    url='https://github.com/markkohdev/python-env-starter',
+    url='https://github.com/markkohdev/python-env',
 
     # Author details
     author='Mark Koh',
