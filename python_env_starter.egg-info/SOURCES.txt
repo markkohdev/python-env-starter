@@ -1,8 +1,0 @@
-MANIFEST.in
-README.rst
-setup.py
-python_env_starter.egg-info/PKG-INFO
-python_env_starter.egg-info/SOURCES.txt
-python_env_starter.egg-info/dependency_links.txt
-python_env_starter.egg-info/requires.txt
-python_env_starter.egg-info/top_level.txt

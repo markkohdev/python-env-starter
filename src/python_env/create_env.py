@@ -2,7 +2,6 @@
 # Copyright © 2017 Spotify AB
 import logging
 import os
-import shutil
 from jinja2 import Environment, PackageLoader
 
 # Setup template and target files
@@ -31,7 +30,7 @@ def main(args, logger=None):
 
     # Initialize our jinja templates dir
     env = Environment(
-        loader=PackageLoader('python_env_starter', 'templates'),
+        loader=PackageLoader('python_env', 'templates'),
     )
 
     ###########################################################################
