@@ -6,6 +6,8 @@
 #
 # This script will install apt-get and brew dependencies as well as install autoenv
 # which will automatically activate your virtual environment when you `cd` into this directory.
+#
+# Feel free to update this file with your own os-level dependencies :)
 
 # See if we have either brew or apt-get installed
 BREW_CMD=$(which brew)

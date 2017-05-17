@@ -10,13 +10,16 @@ What does it do??
 This script will create a few essential files in your repository:
 
 **.env**
+
 This file is used by autoenv to automatically switch to your python virtualenv and run any generic shell commands
 (such as modifying your $PATH or $BIN, adding aliases, etc.) whenever you `cd` into your project directory.
 
 **setup.sh**
+
 This file allows developers who clone your repository to easily install OS-level dependencies.
 
 **.gitignore**
+
 This will add or update your gitignore to include the virtual env and compiled python files.  You don't wanna source
 control that!
 
