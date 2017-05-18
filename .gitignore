@@ -2,3 +2,4 @@
 *.pyc
 .idea
 dist
+python_env.egg-info
