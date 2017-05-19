@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 import argparse
@@ -8,6 +8,8 @@ import sys
 from builtins import AttributeError, Exception
 
 from python_env import create_env
+
+PYTHON_VERSION = 'python{}'.format(sys.version_info.major)
 
 
 def _add_commands(parser):
@@ -41,6 +43,15 @@ def _add_global_options(parser):
                                 default=os.environ.get('VIRTUAL_ENV_DIR', '.venv'),
                                 help='The desired directory name for your virtual env.  Default: "%(default)s"')
 
+    global_options.add_argument('-p', '--python',
+                                metavar='PYTHON_EXE',
+                                default=PYTHON_VERSION,
+                                help="""
+                                The Python interpreter to use, e.g.,
+                                --python=python3.5 will use the python3.5 interpreter
+                                to create the new environment.  The default is the
+                                interpreter that this tool is running with ({})
+                                """.format(PYTHON_VERSION))
 
     global_options.add_argument('-ni', '--non-interactive',
                                 action='store_true',

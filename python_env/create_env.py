@@ -1,5 +1,7 @@
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# Copyright © 2017 Spotify AB
+
+from builtins import input
 import logging
 import os
 from jinja2 import Environment, PackageLoader
@@ -23,44 +25,51 @@ def main(args, logger=None):
     logger.info("Starting virtual env setup")
 
     venv_dir = args.dir
+    python_ver = args.python
 
     # If we're interactive, prompt the users to update the values for things!
     if not args.non_interactive:
-        venv_dir = input('Virtual environment directory [{}]: '.format(venv_dir)) or venv_dir
+        venv_dir = input('\nVirtual environment name [{}]: '.format(venv_dir)) or venv_dir
+
+        python_ver = input('\nPython interpreter [{}]: '.format(python_ver)) or python_ver
 
     # Initialize our jinja templates dir
     env = Environment(
         loader=PackageLoader('python_env', 'templates'),
     )
 
+    template_args = {
+        'venv_name': venv_dir,
+        'python': python_ver,
+        'pip': 'pip3' if python_ver == 'python3' else 'pip'
+    }
+
     ###########################################################################
     # .env
     ###########################################################################
     template = env.get_template(ENV_TEMPLATE)
     with open(ENV_TARGET, 'w') as fh:
-        fh.write(template.render(venv_name=venv_dir))
+        fh.write(template.render(**template_args))
 
     # chmod 755 (in octal, because wtf python)
     os.chmod(ENV_TARGET, 493)
-
 
     ###########################################################################
     # setup.sh
     ###########################################################################
     template = env.get_template(SETUP_TEMPLATE)
     with open(SETUP_TARGET, 'w') as fh:
-        fh.write(template.render(venv_name=venv_dir))
+        fh.write(template.render(**template_args))
 
     # chmod 755 (493 in decimal = 755 in octal, because wtf python)
     os.chmod(SETUP_TARGET, 493)
-
 
     ###########################################################################
     # .gitignore
     # This very well may already exist, so we just wanna update it if it does
     ###########################################################################
     template = env.get_template(GITIGNORE_TEMPLATE)
-    template_lines = template.render(venv_name=venv_dir).splitlines()
+    template_lines = template.render(**template_args).splitlines()
     with open(GITIGNORE_TARGET, 'a+') as fh:
         fh.seek(0)
         gitignore_lines = [line.strip() for line in fh.readlines()]

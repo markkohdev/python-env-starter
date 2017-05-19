@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #
 # setup.sh
 # Written by Mark Koh
@@ -16,19 +16,23 @@ APT_CMD=$(which apt-get)
 if [[ ! -z $BREW_CMD ]]; then
     # What to install with `brew`
     echo "Installing brew dependencies...";
-    brew install python3
+    brew install {{ python }}
 
 elif [[ ! -z $APT_CMD ]]; then
     # What to install with `apt-get`
     echo "Installing python3...";
-    sudo apt-get install -y python3 python3-pip
+    {% if python == "python2" %}
+    sudo apt-get install -y python python-pip
+    {% else %}
+    sudo apt-get install -y {{ python }} {{ python }}-pip
+    {% endif %}
 else
     echo "Neither brew nor apt-get are installed.  Exiting..."
     exit 1;
 fi
 
 echo "Installing virtualenv and autoenv...";
-pip3 install virtualenv autoenv
+{{ pip }} install virtualenv autoenv
 
 read -p "Bash startup file [~/.bashrc]: " BASHRC
 BASHRC=${BASHRC:-~/.bashrc}
@@ -49,5 +53,5 @@ fi
 # Create the actual virtualenv
 if [ ! -d {{ venv_name }} ]; then
     echo "Creating virtual env..."
-    virtualenv -p python3 {{ venv_name }}
+    virtualenv -p {{ python }} {{ venv_name }}
 fi

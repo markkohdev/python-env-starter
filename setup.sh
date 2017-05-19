@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #
 # setup.sh
 # Written by Mark Koh
@@ -15,7 +15,7 @@ APT_CMD=$(which apt-get)
 
 if [[ ! -z $BREW_CMD ]]; then
     # What to install with `brew`
-    echo "Installing python3...";
+    echo "Installing brew dependencies...";
     brew install python3
 
 elif [[ ! -z $APT_CMD ]]; then
@@ -51,9 +51,3 @@ if [ ! -d .venv ]; then
     echo "Creating virtual env..."
     virtualenv -p python3 .venv
 fi
-
-# Source the .env file
-source .env
-
-# Source the bash setup file so we activate the autoenv
-source $BASHRC_ABS
