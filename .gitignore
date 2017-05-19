@@ -3,3 +3,4 @@
 .idea
 dist
 python_env_starter.egg-info
+build
