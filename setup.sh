@@ -48,8 +48,20 @@ if ! grep -q "activate.sh" $BASHRC_ABS ; then
     fi
 fi
 
+VENV=.venv
+
 # Create the actual virtualenv
-if [ ! -d .venv ]; then
+if [ ! -d $VENV ]; then
     echo "Creating virtual env..."
-    virtualenv -p python3 .venv
+    virtualenv -p python3 $VENV
 fi
+
+# If we have a requirements file, install them reqs
+if [ -f requirements.txt ]; then
+    echo "Installing pip requirements..."
+    source $VENV/bin/activate
+    pip3 install -r requirements.txt
+fi
+
+echo "Please run
+  source ~/.bashrc"
