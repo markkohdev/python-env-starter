@@ -85,7 +85,12 @@ def main(args, logger=None):
             else:
                 logger.debug('"{}" already exists in .gitignore'.format(line))
 
-    logger.info("Virtual env setup complete!")
+    print("""
+Python env setup complete!  Please run
+  ./setup.sh
+""")
+
+    logger.info("Python env setup complete!")
 
 
 # Main Runner

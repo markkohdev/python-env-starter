@@ -65,5 +65,8 @@ if [ -f requirements.txt ]; then
     {{ pip }} install -r requirements.txt
 fi
 
-echo "Please run
-  source ~/.bashrc"
+echo "
+Please run
+  source $BASHRC
+
+"

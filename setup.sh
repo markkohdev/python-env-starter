@@ -63,5 +63,8 @@ if [ -f requirements.txt ]; then
     pip3 install -r requirements.txt
 fi
 
-echo "Please run
-  source ~/.bashrc"
+echo "
+Please run
+  source $BASHRC
+
+"

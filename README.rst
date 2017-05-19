@@ -32,19 +32,12 @@ How do I do it??
 ----------------------
 It's easy peasy!  Just run
 
-**Installation (OSX)**
+**Installation**
 
 .. code-block:: bash
 
-    brew install python3
-    sudo pip3 install python-env-starter
+    sudo pip install python-env-starter
 
-**Installation (Debian)**
-
-.. code-block:: bash
-
-    sudo apt-get install -y python3 python3-pip
-    sudo pip3 install python-env-starter
 
 **Running it**
 
