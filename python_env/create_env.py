@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
+import sys
 from builtins import input
 import logging
 import os
@@ -29,9 +29,14 @@ def main(args, logger=None):
 
     # If we're interactive, prompt the users to update the values for things!
     if not args.non_interactive:
-        venv_dir = input('\nVirtual environment name [{}]: '.format(venv_dir)) or venv_dir
+        venv_dir = input('Virtual environment name [{}]: '.format(venv_dir)) or venv_dir
 
-        python_ver = input('\nPython interpreter [{}]: '.format(python_ver)) or python_ver
+        python_ver = input('Python interpreter [{}]: '.format(python_ver)) or python_ver
+
+    # Sanitize our python version...this won't work if we don't
+    if 'python2' not in python_ver and 'python3' not in python_ver and python_ver != 'python':
+        logger.error('Invalid python interpreter.  Please use either python2 or python3.')
+        sys.exit(1)
 
     # Initialize our jinja templates dir
     env = Environment(
@@ -41,7 +46,7 @@ def main(args, logger=None):
     template_args = {
         'venv_name': venv_dir,
         'python': python_ver,
-        'pip': 'pip3' if python_ver == 'python3' else 'pip'
+        'pip': 'pip3' if 'python3' in python_ver else 'pip'
     }
 
     ###########################################################################

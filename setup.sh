@@ -21,7 +21,9 @@ if [[ ! -z $BREW_CMD ]]; then
 elif [[ ! -z $APT_CMD ]]; then
     # What to install with `apt-get`
     echo "Installing python3...";
+
     sudo apt-get install -y python3 python3-pip
+
 else
     echo "Neither brew nor apt-get are installed.  Exiting..."
     exit 1;

@@ -21,11 +21,11 @@ if [[ ! -z $BREW_CMD ]]; then
 elif [[ ! -z $APT_CMD ]]; then
     # What to install with `apt-get`
     echo "Installing python3...";
-    {% if python == "python2" %}
+{% if python == "python2" %}
     sudo apt-get install -y python python-pip
-    {% else %}
+{% else %}
     sudo apt-get install -y {{ python }} {{ python }}-pip
-    {% endif %}
+{% endif %}
 else
     echo "Neither brew nor apt-get are installed.  Exiting..."
     exit 1;
