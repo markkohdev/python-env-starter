@@ -7,8 +7,6 @@ Also thanks to @bkuberek for showing me how to write CLIs for applications!  ðŸ‘
 
 Feel free to leave or send any feedback, always looking for ways to improve dis
 
-*Note: This utility is only compatible with Python3 at the moment.  If you'd like to help us support python2 please put
-in a PR.*
 
 What does it do??
 ---------------------------
