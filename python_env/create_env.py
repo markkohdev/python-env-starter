@@ -95,4 +95,4 @@ Python env setup complete!  Please run
 
 # Main Runner
 if __name__ == "__main__":
-    main()
+    main([])
